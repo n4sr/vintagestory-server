@@ -10,7 +10,7 @@ ENV SERVER_BRANCH="stable" \
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y wget netcat jq moreutils && \
+    apt-get install --no-install-recommends -y wget netcat jq moreutils unzip && \
     apt-get clean autoclean && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/* && \
@@ -23,6 +23,7 @@ RUN useradd -u $UID -U -m -s /bin/false vintagestory && usermod -G users vintage
 
 # Expose ports
 EXPOSE 42420
+EXPOSE 42425
 
 # Healthcheck
 HEALTHCHECK --start-period=1m --interval=5s CMD nc -z  127.0.0.1 $SERVER_PORT
@@ -30,6 +31,7 @@ HEALTHCHECK --start-period=1m --interval=5s CMD nc -z  127.0.0.1 $SERVER_PORT
 VOLUME ["/data/server-file"]
 
 COPY serverconfig.json /data/default-serverconfig.json
+COPY vscron.json /data/default-vscron.json
 
 COPY entry.sh /data/scripts/entry.sh
 CMD ["bash", "/data/scripts/entry.sh"]
