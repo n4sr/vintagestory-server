@@ -23,7 +23,7 @@ RUN useradd -u $UID -U -m -s /bin/false vintagestory && usermod -G users vintage
 
 # Expose ports
 EXPOSE 42420
-EXPOSE 42425
+#EXPOSE 42425 # RCON port, do not expose by default
 
 # Healthcheck
 HEALTHCHECK --start-period=1m --interval=5s CMD nc -z  127.0.0.1 $SERVER_PORT
@@ -33,5 +33,6 @@ VOLUME ["/data/server-file"]
 COPY serverconfig.json /data/default-serverconfig.json
 COPY vsrcon.json /data/default-vsrcon.json
 
+COPY rcon.sh /data/scripts/rcon.sh
 COPY entry.sh /data/scripts/entry.sh
 CMD ["bash", "/data/scripts/entry.sh"]

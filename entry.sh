@@ -28,7 +28,18 @@ if [ ! -d /data/server-file/ModConfig ]; then mkdir -p /data/server-file/ModConf
 if [ ! -f "$rconconfig" ]; then cp /data/default-vsrcon.json "$rconconfig"; fi # copy default rcon config if it does not exist.
 if [ ! -d /data/server-file/Mods ]; then mkdir -p /data/server-file/Mods; fi # make Mods if it does not exist.
 if [ ! -f /data/server-file/Mods/VintageRCon-Release.zip ]; then # download VintageRCon to Mods if it does not exist.
+	echo "Downloading VintageRcon..."
 	wget https://github.com/Shijikori/vintage-rcon/releases/download/1.0/VintageRCon-Release.zip -O /data/server-file/Mods/VintageRCon-1.0.zip
+fi
+
+# Download and setup gorcon-cli
+if [ ! -f /data/rcon-cli/rcon ]; then
+	echo "Downloading gorcon-cli..."
+	cd /data
+	wget https://github.com/gorcon/rcon-cli/releases/download/v0.10.3/rcon-0.10.3-amd64_linux.tar.gz
+	tar xzf rcon-0.10.3-amd64_linux.tar.gz
+	rm rcon-0.10.3-amd64_linux.tar.gz
+	mv rcon-0.10.3-amd64_linux rcon-cli
 fi
 
 chown -R vintagestory:vintagestory /data
