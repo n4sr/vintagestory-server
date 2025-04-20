@@ -25,10 +25,10 @@ fi
 # Download and setup RCON
 rconconfig="/data/server-file/ModConfig/vsrcon.json"
 if [ ! -d /data/server-file/ModConfig ]; then mkdir -p /data/server-file/ModConfig; fi # make ModConfig if it does not exist.
-if [ ! -f "$rconconfig" ]; then cp /data/default-defaultvsrcon.json "$rconconfig"; fi # copy default rcon config if it does not exist.
+if [ ! -f "$rconconfig" ]; then cp /data/default-vsrcon.json "$rconconfig"; fi # copy default rcon config if it does not exist.
 if [ ! -d /data/server-file/Mods ]; then mkdir -p /data/server-file/Mods; fi # make Mods if it does not exist.
 if [ ! -f /data/server-file/Mods/VintageRCon-Release.zip ]; then # download VintageRCon to Mods if it does not exist.
-	wget https://github.com/Shijikori/vintage-rcon/releases/download/1.0/VintageRCon-Release.zip -o /data/server-file/Mods/VintageRCon-Release.zip
+	wget https://github.com/Shijikori/vintage-rcon/releases/download/1.0/VintageRCon-Release.zip -O /data/server-file/Mods/VintageRCon-1.0.zip
 fi
 
 chown -R vintagestory:vintagestory /data

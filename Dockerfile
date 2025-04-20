@@ -31,7 +31,7 @@ HEALTHCHECK --start-period=1m --interval=5s CMD nc -z  127.0.0.1 $SERVER_PORT
 VOLUME ["/data/server-file"]
 
 COPY serverconfig.json /data/default-serverconfig.json
-COPY vscron.json /data/default-vscron.json
+COPY vsrcon.json /data/default-vsrcon.json
 
 COPY entry.sh /data/scripts/entry.sh
 CMD ["bash", "/data/scripts/entry.sh"]
