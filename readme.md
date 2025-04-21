@@ -138,3 +138,9 @@ To interact with the console, you need to attach to the container, replace <cont
 ```docker attach <container_name>```
 
 Use Control-p Control-q to detach.
+
+## RCON
+
+Server commands can also be issued by using RCON. You can configure an RCON password by setting the **RCON_PASSWORD** environment variable. You can also change the port by changing the exposed port in your `docker-compose.yml`. 
+
+```docker exec -i <container_name> /data/scripts/rcon.sh```

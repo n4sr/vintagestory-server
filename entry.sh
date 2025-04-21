@@ -22,6 +22,26 @@ else
 	echo "Server already up-to-date"
 fi
 
+# Download and setup RCON
+rconconfig="/data/server-file/ModConfig/vsrcon.json"
+if [ ! -d /data/server-file/ModConfig ]; then mkdir -p /data/server-file/ModConfig; fi # make ModConfig if it does not exist.
+if [ ! -f "$rconconfig" ]; then cp /data/default-vsrcon.json "$rconconfig"; fi # copy default rcon config if it does not exist.
+if [ ! -d /data/server-file/Mods ]; then mkdir -p /data/server-file/Mods; fi # make Mods if it does not exist.
+if [ ! -f /data/server-file/Mods/VintageRCon-Release.zip ]; then # download VintageRCon to Mods if it does not exist.
+	echo "Downloading VintageRcon..."
+	wget https://github.com/Shijikori/vintage-rcon/releases/download/1.0/VintageRCon-Release.zip -O /data/server-file/Mods/VintageRCon-1.0.zip
+fi
+
+# Download and setup gorcon-cli
+if [ ! -f /data/rcon-cli/rcon ]; then
+	echo "Downloading gorcon-cli..."
+	cd /data
+	wget https://github.com/gorcon/rcon-cli/releases/download/v0.10.3/rcon-0.10.3-amd64_linux.tar.gz
+	tar xzf rcon-0.10.3-amd64_linux.tar.gz
+	rm rcon-0.10.3-amd64_linux.tar.gz
+	mv rcon-0.10.3-amd64_linux rcon-cli
+fi
+
 chown -R vintagestory:vintagestory /data
 
 # Apply server configuration
@@ -121,6 +141,9 @@ if [ -n "$WORLDCONFIG_SNOW_ACCUM" ]; then jq '.WorldConfig.WorldConfiguration.sn
 if [ -n "$WORLDCONFIG_ALLOW_LAND_CLAIMING" ]; then jq '.WorldConfig.WorldConfiguration.allowLandClaiming = ($val | test("true"))' --arg val "$WORLDCONFIG_ALLOW_LAND_CLAIMING" $serverconfig | sponge $serverconfig ; fi
 if [ -n "$WORLDCONFIG_CLASS_EXCLUSIVE_RECIPES" ]; then jq '.WorldConfig.WorldConfiguration.classExclusiveRecipes = ($val | test("true"))' --arg val "$WORLDCONFIG_CLASS_EXCLUSIVE_RECIPES" $serverconfig | sponge $serverconfig ; fi
 if [ -n "$WORLDCONFIG_AUCTION_HOUSE" ]; then jq '.WorldConfig.WorldConfiguration.auctionHouse = ($val | test("true"))' --arg val "$WORLDCONFIG_AUCTION_HOUSE" $serverconfig | sponge $serverconfig ; fi
+
+# Apply RCON Configuration
+if [ -n "$RCON_PASSWORD" ]; then jq '.Password = $val' --arg val "$RCON_PASSWORD" $rconconfig | sponge $rconconfig; fi
 
 # Start server
 echo "Launching server..."
