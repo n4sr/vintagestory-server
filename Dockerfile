@@ -28,7 +28,7 @@ EXPOSE 42420
 # Healthcheck
 HEALTHCHECK --start-period=1m --interval=5s CMD nc -z  127.0.0.1 $SERVER_PORT
 
-VOLUME ["/data/server-file"]
+VOLUME ["/data"]
 
 COPY serverconfig.json /data/default-serverconfig.json
 COPY vsrcon.json /data/default-vsrcon.json
